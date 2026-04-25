@@ -12,6 +12,7 @@ import { EvaluationResult } from '@/components/EvaluationResult';
 import { XPBar } from '@/components/XPBar';
 import { LevelUpScreen } from '@/components/LevelUpScreen';
 import { CompletionScreen } from '@/components/CompletionScreen';
+import { AskAI } from '@/components/AskAI';
 
 const AI_LOADING_MESSAGES = [
   '🤖 AI is crafting your challenge...',
@@ -332,6 +333,9 @@ export default function CodeQuest() {
           <CompletionScreen subject={state.subject} level={state.level} xp={state.xp} history={state.history} />
         )}
       </div>
+
+      {/* Floating AI Chat - available throughout the app */}
+      <AskAI subject={state.subject} level={state.level} />
     </main>
   );
 }
