@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Subject } from '@/lib/types';
 import { XPBar } from './XPBar';
 import { LearningHub } from './LearningHub';
@@ -50,6 +51,7 @@ const subjects: { id: Subject; name: string; color: string; icon: React.ReactNod
 
 const DashboardComponent: React.FC<DashboardProps> = ({ onSelect, level, xp, streak, totalCompleted }) => {
   const [isLibraryOpen, setIsLibraryOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-8 animate-fade-in">
@@ -93,6 +95,14 @@ const DashboardComponent: React.FC<DashboardProps> = ({ onSelect, level, xp, str
         >
           <span className="text-2xl group-hover:scale-110 transition-transform">📚</span>
           <span>Learning Library</span>
+        </button>
+
+        <button 
+          onClick={() => router.push('/learn-ai')}
+          className="w-full py-4 bg-gradient-to-r from-violet-900/40 to-fuchsia-900/40 hover:from-violet-900/70 hover:to-fuchsia-900/70 border-2 border-violet-500/30 hover:border-violet-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-3 group focus:outline-none focus:ring-2 focus:ring-violet-500"
+        >
+          <span className="text-2xl group-hover:scale-110 transition-transform">🤖</span>
+          <span>Learn with AI</span>
         </button>
       </div>
 
