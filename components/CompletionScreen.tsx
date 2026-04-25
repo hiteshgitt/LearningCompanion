@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { db, initAuth, storage } from '@/lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
-import { ref, uploadString } from 'firebase/storage';
 import { Subject } from '@/lib/types';
 
 interface CompletionScreenProps {
@@ -18,19 +15,18 @@ const CompletionScreenComponent: React.FC<CompletionScreenProps> = ({ subject, l
     const saveSession = async () => {
       if (saved || !subject) return;
       try {
-        await initAuth();
-        await addDoc(collection(db, 'codequest_sessions'), {
-          subject,
-          finalLevel: level,
-          totalXp: xp,
-          challengesCompleted: history.length,
-          timestamp: new Date().toISOString()
+        const res = await fetch('/api/save-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject,
+            finalLevel: level,
+            totalXp: xp,
+            challengesCompleted: history.length
+          })
         });
 
-        // Log to Storage as well
-        const storageRef = ref(storage, `sessions/${Date.now()}.txt`);
-        await uploadString(storageRef, `Session Complete: ${subject} - Level ${level} - ${xp} XP`);
-
+        if (!res.ok) throw new Error('Failed to save score');
         setSaved(true);
       } catch (error) {
         console.error('Failed to save score:', error);

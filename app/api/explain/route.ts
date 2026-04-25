@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGeminiModel } from '@/lib/gemini';
 import { z } from 'zod';
 
 const explainSchema = z.object({
@@ -13,7 +12,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const validated = explainSchema.parse(body);
 
-    const model = getGeminiModel();
+    const { getVertexAIModel } = await import('@/lib/vertexai');
+    const model = getVertexAIModel();
 
     const prompt = `
 A student just completed a coding challenge about "${validated.topic}".

@@ -14,10 +14,11 @@ Built for the **PromptWars 2026** challenge, it demonstrates a deep integration 
 
 ## 🛠️ Technical Stack & Google Services
 - **Framework**: Next.js 15 (App Router, Standalone mode)
-- **AI Engine**: Google Gemini 2.5 Flash (used for generation, evaluation, and tutoring)
+- **AI Engine**: **Google Vertex AI SDK** (Enterprise-grade Gemini 1.5 Flash integration)
 - **Authentication**: Firebase Authentication (Anonymous session-based tracking)
-- **Database**: Cloud Firestore (Real-time global leaderboard and progress logging)
-- **Storage**: Firebase Storage (Session event logging and audit trails)
+- **Database**: **Firebase Admin SDK** (Server-side Firestore operations for secure progress tracking)
+- **Real-time**: Cloud Firestore `onSnapshot` for the global live leaderboard.
+- **Storage**: Firebase Storage via Admin SDK for session audit trails.
 - **Analytics**: Google Analytics 4 (Behavioral tracking and conversion funnels)
 - **Styling**: Vanilla CSS with modern HSL tokens and Glassmorphism effects.
 

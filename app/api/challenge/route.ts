@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGeminiModel } from '@/lib/gemini';
 import { z } from 'zod';
 
 const challengeRequestSchema = z.object({
@@ -48,7 +47,8 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const model = getGeminiModel();
+    const { getVertexAIModel } = await import('@/lib/vertexai');
+    const model = getVertexAIModel();
     
     const systemInstruction = `
 You are an expert coding instructor. Generate a coding challenge for a user learning ${validated.subject}.

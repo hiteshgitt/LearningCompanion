@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGeminiModel } from '@/lib/gemini';
 import { z } from 'zod';
 
 const chatSchema = z.object({
@@ -13,7 +12,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const validated = chatSchema.parse(body);
 
-    const model = getGeminiModel();
+    const { getVertexAIModel } = await import('@/lib/vertexai');
+    const model = getVertexAIModel();
 
     const context = validated.subject
       ? `The user is learning ${validated.subject} at Level ${validated.level ?? 1} out of 10.`

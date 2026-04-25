@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGeminiModel } from '@/lib/gemini';
 import { z } from 'zod';
 
 const evaluateRequestSchema = z.object({
@@ -18,7 +17,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const validated = evaluateRequestSchema.parse(body);
     
-    const model = getGeminiModel();
+    const { getVertexAIModel } = await import('@/lib/vertexai');
+    const model = getVertexAIModel();
     
     const systemInstruction = `
 You are an expert coding instructor evaluating a student's code.
