@@ -37,7 +37,8 @@ Return a JSON object: { "answer": "string" }
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    const data = JSON.parse(text);
+    const cleanedText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    const data = JSON.parse(cleanedText);
 
     return NextResponse.json(data);
   } catch (error: unknown) {
