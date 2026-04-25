@@ -9,11 +9,45 @@ const challengeRequestSchema = z.object({
   completedChallenges: z.array(z.string()).default([]),
 });
 
+// Server-side in-memory cache for efficiency (avoids redundant Gemini API calls)
+interface CacheEntry { data: unknown; expiresAt: number; }
+const challengeCache = new Map<string, CacheEntry>();
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+function getCacheKey(subject: string, level: number, difficulty: string): string {
+  return `${subject}:${level}:${difficulty}:${Date.now() % CACHE_TTL_MS}`;
+}
+
+function getFromCache(key: string): unknown | null {
+  const entry = challengeCache.get(key);
+  if (!entry) return null;
+  if (Date.now() > entry.expiresAt) { challengeCache.delete(key); return null; }
+  return entry.data;
+}
+
+function setCache(key: string, data: unknown): void {
+  // Evict entries if cache grows too large
+  if (challengeCache.size > 50) {
+    const firstKey = challengeCache.keys().next().value;
+    if (firstKey) challengeCache.delete(firstKey);
+  }
+  challengeCache.set(key, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const validated = challengeRequestSchema.parse(body);
     
+    // Check cache first (efficiency optimization)
+    const cacheKey = getCacheKey(validated.subject, validated.level, validated.difficulty);
+    const cached = getFromCache(cacheKey);
+    if (cached) {
+      return NextResponse.json(cached, {
+        headers: { 'X-Cache': 'HIT' },
+      });
+    }
+
     const model = getGeminiModel();
     
     const systemInstruction = `
@@ -66,8 +100,14 @@ If type is 'drag-drop':
     const result = await model.generateContent(systemInstruction);
     const responseText = result.response.text();
     const cleanedText = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+    const parsed = JSON.parse(cleanedText);
+
+    // Store in cache
+    setCache(cacheKey, parsed);
     
-    return NextResponse.json(JSON.parse(cleanedText));
+    return NextResponse.json(parsed, {
+      headers: { 'X-Cache': 'MISS' },
+    });
   } catch (error: unknown) {
     console.error('Challenge API Error:', error);
     if (error instanceof z.ZodError) {
@@ -76,3 +116,4 @@ If type is 'drag-drop':
     return NextResponse.json({ error: 'Failed to generate challenge', details: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }
+

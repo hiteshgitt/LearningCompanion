@@ -93,7 +93,11 @@ const DragDropChallengeComponent: React.FC<DragDropChallengeProps> = ({ challeng
     <div className="w-full h-full min-h-[300px] flex flex-col gap-8 rounded-xl overflow-hidden border border-slate-700 bg-slate-900 p-6">
       
       {/* Code Editor Area with Drop Zones */}
-      <div className="flex-1 bg-slate-800 rounded-xl p-6 border border-slate-700 font-mono text-slate-300 fira-code whitespace-pre-wrap leading-10">
+      <div
+        className="flex-1 bg-slate-800 rounded-xl p-6 border border-slate-700 font-mono text-slate-300 fira-code whitespace-pre-wrap leading-10"
+        role="region"
+        aria-label="Code assembly area — drop snippets into the blanks"
+      >
         {challenge.droppableZones.map((zone, idx) => {
           if (zone === '___') {
             const currentSlotIndex = slotCounter++;
