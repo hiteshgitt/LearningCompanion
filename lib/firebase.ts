@@ -21,6 +21,11 @@ const storage = getStorage(app);
 let auth: Auth | null = null;
 let analytics: Analytics | null = null;
 
+/**
+ * @function initAuth
+ * @description Initializes Firebase Authentication and performs an anonymous sign-in to enable secure session tracking.
+ * @returns {Promise<Auth|null>} The initialized Auth instance or null on failure.
+ */
 export const initAuth = async () => {
   try {
     if (!auth) {

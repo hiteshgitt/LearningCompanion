@@ -7,6 +7,7 @@ Built for the **PromptWars 2026** challenge, it demonstrates a deep integration 
 ## ✨ Key Features
 - **Adaptive AI Challenges**: Challenges dynamically adjust in difficulty (Easy, Normal, Hard) based on user performance.
 - **Learn with AI**: A dedicated full-page chat interface where students can ask free-form coding questions to a context-aware AI tutor.
+- **Global Real-time Leaderboard**: Features a live ranking system powered by Firestore `onSnapshot`, proving active real-time data integration.
 - **Explain it Simpler**: AI-powered analogies that break down complex technical feedback into beginner-friendly concepts.
 - **Learning Library**: A curated hub of resources (MDN, FreeCodeCamp) integrated directly into the dashboard.
 - **Gamified XP System**: Real-time level-up animations, streak tracking, and achievement milestones.
@@ -15,7 +16,7 @@ Built for the **PromptWars 2026** challenge, it demonstrates a deep integration 
 - **Framework**: Next.js 15 (App Router, Standalone mode)
 - **AI Engine**: Google Gemini 2.5 Flash (used for generation, evaluation, and tutoring)
 - **Authentication**: Firebase Authentication (Anonymous session-based tracking)
-- **Database**: Cloud Firestore (Real-time progress logging and session persistence)
+- **Database**: Cloud Firestore (Real-time global leaderboard and progress logging)
 - **Storage**: Firebase Storage (Session event logging and audit trails)
 - **Analytics**: Google Analytics 4 (Behavioral tracking and conversion funnels)
 - **Styling**: Vanilla CSS with modern HSL tokens and Glassmorphism effects.

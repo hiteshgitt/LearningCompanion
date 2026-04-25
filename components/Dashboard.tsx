@@ -3,7 +3,17 @@ import { useRouter } from 'next/navigation';
 import { Subject } from '@/lib/types';
 import { XPBar } from './XPBar';
 import { LearningHub } from './LearningHub';
+import { Leaderboard } from './Leaderboard';
 
+/**
+ * @interface DashboardProps
+ * @description Defines the statistical data and callbacks required for the user dashboard.
+ * @property {function} onSelect - Callback triggered when a learning track is chosen.
+ * @property {number} level - Current user level based on XP.
+ * @property {number} xp - Current experience points in the current level.
+ * @property {number} streak - Consecutive days of learning.
+ * @property {number} totalCompleted - Total challenges finished across all sessions.
+ */
 interface DashboardProps {
   onSelect: (subject: Subject) => void;
   level: number;
@@ -88,6 +98,8 @@ const DashboardComponent: React.FC<DashboardProps> = ({ onSelect, level, xp, str
           <XPBar level={level} xp={xp} nextLevelXp={level * 100} />
           <p className="text-xs text-slate-500 text-center mt-4">Keep going to reach Level {level + 1}!</p>
         </div>
+
+        <Leaderboard />
 
         <button 
           onClick={() => setIsLibraryOpen(true)}
