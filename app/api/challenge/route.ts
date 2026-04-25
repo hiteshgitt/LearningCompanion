@@ -100,12 +100,10 @@ If type is 'drag-drop':
     const result = await model.generateContent(systemInstruction);
     const responseText = result.response.text();
     const cleanedText = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
-    const parsed = JSON.parse(cleanedText);
-
     // Store in cache
-    setCache(cacheKey, parsed);
+    setCache(cacheKey, JSON.parse(cleanedText));
     
-    return NextResponse.json(parsed, {
+    return NextResponse.json(JSON.parse(cleanedText), {
       headers: { 'X-Cache': 'MISS' },
     });
   } catch (error: unknown) {
