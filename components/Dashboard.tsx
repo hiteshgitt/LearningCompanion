@@ -4,6 +4,7 @@ import { Subject } from '@/lib/types';
 import { XPBar } from './XPBar';
 import { LearningHub } from './LearningHub';
 import { Leaderboard } from './Leaderboard';
+import { CloudFeedback } from './CloudFeedback';
 
 /**
  * @interface DashboardProps
@@ -100,6 +101,7 @@ const DashboardComponent: React.FC<DashboardProps> = ({ onSelect, level, xp, str
         </div>
 
         <Leaderboard />
+        <CloudFeedback />
 
         <button 
           onClick={() => setIsLibraryOpen(true)}
