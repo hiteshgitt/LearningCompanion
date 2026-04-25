@@ -180,6 +180,7 @@ export default function CodeQuest() {
                 <EvaluationResult 
                   evaluation={state.evaluation} 
                   onNext={handleNextAction} 
+                  challengeTitle={state.currentChallenge?.title}
                   onRetry={() => {
                     nextChallenge();
                   }} 

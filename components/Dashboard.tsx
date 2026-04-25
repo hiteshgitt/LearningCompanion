@@ -98,8 +98,23 @@ const DashboardComponent: React.FC<DashboardProps> = ({ onSelect, level, xp, str
 
       {/* Right Content: Subject Paths */}
       <div className="w-full md:w-2/3 flex flex-col gap-6">
-        <h2 className="text-3xl font-black text-white mb-2">Choose Your Path</h2>
-        <p className="text-slate-400 mb-6">Select a track below to jump into bite-sized coding challenges.</p>
+
+        {/* Hero Tagline - 5-second clarity */}
+        <div className="bg-gradient-to-br from-violet-900/30 to-fuchsia-900/30 border border-violet-500/20 rounded-2xl p-6 mb-2">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-2xl">🤖</span>
+            <span className="text-xs font-black uppercase tracking-widest text-violet-400 bg-violet-500/10 px-3 py-1 rounded-full border border-violet-500/30">AI-Powered Learning</span>
+          </div>
+          <h2 className="text-2xl font-black text-white mb-1">Your personal coding tutor</h2>
+          <p className="text-slate-300 text-sm leading-relaxed">Generates unique challenges, adapts difficulty to your pace, and gives real-time AI feedback — all personalized just for you.</p>
+          <div className="flex gap-4 mt-4 text-xs text-slate-400 font-medium">
+            <span className="flex items-center gap-1">⚡ Adapts in real-time</span>
+            <span className="flex items-center gap-1">🎯 Tracks your progress</span>
+            <span className="flex items-center gap-1">🏆 Earn XP & level up</span>
+          </div>
+        </div>
+
+        <p className="text-slate-400 text-sm">Select a track to jump in. AI difficulty adjusts automatically as you improve.</p>
 
         <div className="flex flex-col gap-4">
           {subjects.map((s) => (
