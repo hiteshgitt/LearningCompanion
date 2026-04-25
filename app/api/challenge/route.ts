@@ -21,9 +21,13 @@ You are an expert coding instructor. Generate a coding challenge for a user lear
 The user is at Level ${validated.level} out of 10. The difficulty should be "${validated.difficulty}".
 Do not repeat any of these challenge IDs: ${validated.completedChallenges.join(', ')}.
 
-Return ONLY a JSON object (no markdown, no backticks).
-Schema:
+First, randomly pick ONE of the following challenge types: 'code', 'fill-in-blank', or 'drag-drop'.
+Then generate the challenge according to the chosen type.
+
+Return ONLY a single JSON object (no markdown, no backticks).
+If type is 'code':
 {
+  "type": "code",
   "id": "string (unique identifier for this challenge)",
   "title": "string (short, catchy title)",
   "instruction": "string (clear instruction of what to build)",
@@ -32,6 +36,31 @@ Schema:
   "hint": "string (one helpful tip)",
   "xp": number (between 10 and 50 based on difficulty)
 }
+
+If type is 'fill-in-blank':
+{
+  "type": "fill-in-blank",
+  "id": "string",
+  "title": "string",
+  "instruction": "string",
+  "template": "string (code with exactly three underscores '___' for each blank)",
+  "blanks": ["string (correct answer for blank 1)", "string (answer 2)"],
+  "hint": "string",
+  "xp": number
+}
+
+If type is 'drag-drop':
+{
+  "type": "drag-drop",
+  "id": "string",
+  "title": "string",
+  "instruction": "string",
+  "droppableZones": ["string (static code)", "___", "string (static code)", "___"],
+  "draggableItems": ["string (draggable item 1)", "string (item 2)", "string (distractor item)"],
+  "correctOrder": ["string (item 1)", "string (item 2)"],
+  "hint": "string",
+  "xp": number
+}
     `.trim();
 
     const result = await model.generateContent(systemInstruction);
@@ -39,11 +68,11 @@ Schema:
     const cleanedText = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
     
     return NextResponse.json(JSON.parse(cleanedText));
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Challenge API Error:', error);
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid request parameters' }, { status: 400 });
     }
-    return NextResponse.json({ error: 'Failed to generate challenge' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to generate challenge', details: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }

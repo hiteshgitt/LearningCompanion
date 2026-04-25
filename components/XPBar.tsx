@@ -6,7 +6,7 @@ interface XPBarProps {
   nextLevelXp?: number;
 }
 
-export const XPBar: React.FC<XPBarProps> = ({ level, xp, nextLevelXp = level * 100 }) => {
+const XPBarComponent: React.FC<XPBarProps> = ({ level, xp, nextLevelXp = level * 100 }) => {
   const percentage = Math.min(Math.round((xp / nextLevelXp) * 100), 100);
 
   return (
@@ -37,3 +37,5 @@ export const XPBar: React.FC<XPBarProps> = ({ level, xp, nextLevelXp = level * 1
     </div>
   );
 };
+
+export const XPBar = React.memo(XPBarComponent);

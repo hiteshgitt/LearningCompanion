@@ -2,15 +2,34 @@ export type Subject = 'HTML' | 'CSS' | 'JavaScript';
 export type Difficulty = 'easier' | 'normal' | 'harder';
 export type GamePhase = 'subject-select' | 'playing' | 'evaluating' | 'levelup' | 'complete';
 
-export interface Challenge {
+export interface BaseChallenge {
   id: string;
   title: string;
   instruction: string;
-  starterCode: string;
-  expectedBehaviour: string;
   hint: string;
   xp: number;
 }
+
+export interface CodeChallenge extends BaseChallenge {
+  type: 'code';
+  starterCode: string;
+  expectedBehaviour: string;
+}
+
+export interface FillInBlankChallenge extends BaseChallenge {
+  type: 'fill-in-blank';
+  template: string; // e.g., "const ___ = 'world'; console.log('hello', ___);"
+  blanks: string[]; // Correct answers for each blank in order
+}
+
+export interface DragDropChallenge extends BaseChallenge {
+  type: 'drag-drop';
+  droppableZones: string[]; // e.g., ["<html>", "___", "</html>"]
+  draggableItems: string[]; // Items the user drags
+  correctOrder: string[]; // The items that should go into the '___' zones in order
+}
+
+export type Challenge = CodeChallenge | FillInBlankChallenge | DragDropChallenge;
 
 export interface EvaluationResponse {
   correct: boolean;

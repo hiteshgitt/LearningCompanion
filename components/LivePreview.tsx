@@ -6,7 +6,7 @@ interface LivePreviewProps {
   subject: Subject;
 }
 
-export const LivePreview: React.FC<LivePreviewProps> = ({ code, subject }) => {
+const LivePreviewComponent: React.FC<LivePreviewProps> = ({ code, subject }) => {
   const [debouncedCode, setDebouncedCode] = useState(code);
 
   useEffect(() => {
@@ -19,9 +19,9 @@ export const LivePreview: React.FC<LivePreviewProps> = ({ code, subject }) => {
 
   if (!debouncedCode.trim()) {
     return (
-      <div className="w-full h-full min-h-[300px] rounded-xl border border-slate-700 bg-slate-900 flex items-center justify-center text-slate-500">
+      <div className="w-full h-full min-h-[300px] rounded-xl border border-slate-700 bg-slate-900 flex items-center justify-center text-slate-400">
         <div className="text-center">
-          <svg className="w-12 h-12 mx-auto mb-3 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
           </svg>
           <p>Start typing to see live preview</p>
@@ -98,3 +98,5 @@ export const LivePreview: React.FC<LivePreviewProps> = ({ code, subject }) => {
     </div>
   );
 };
+
+export const LivePreview = React.memo(LivePreviewComponent);

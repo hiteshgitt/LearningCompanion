@@ -7,7 +7,7 @@ interface EvaluationResultProps {
   onRetry: () => void;
 }
 
-export const EvaluationResult: React.FC<EvaluationResultProps> = ({ evaluation, onNext, onRetry }) => {
+const EvaluationResultComponent: React.FC<EvaluationResultProps> = ({ evaluation, onNext, onRetry }) => {
   const isCorrect = evaluation.correct;
   
   return (
@@ -63,3 +63,5 @@ export const EvaluationResult: React.FC<EvaluationResultProps> = ({ evaluation, 
     </div>
   );
 };
+
+export const EvaluationResult = React.memo(EvaluationResultComponent);

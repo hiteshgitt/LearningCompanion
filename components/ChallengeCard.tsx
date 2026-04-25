@@ -5,7 +5,7 @@ interface ChallengeCardProps {
   challenge: Challenge;
 }
 
-export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge }) => {
+const ChallengeCardComponent: React.FC<ChallengeCardProps> = ({ challenge }) => {
   return (
     <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 animate-fade-in-right">
       <div className="flex justify-between items-start mb-4">
@@ -20,10 +20,12 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge }) => {
         <p className="text-slate-300 leading-relaxed">{challenge.instruction}</p>
       </div>
       
-      <div className="mb-4">
-        <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Expected Behaviour</h4>
-        <p className="text-slate-300 leading-relaxed">{challenge.expectedBehaviour}</p>
-      </div>
+      {challenge.type === 'code' && (
+        <div className="mb-4">
+          <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Expected Behaviour</h4>
+          <p className="text-slate-300 leading-relaxed">{challenge.expectedBehaviour}</p>
+        </div>
+      )}
 
       <div className="mt-6 pt-4 border-t border-slate-700">
         <details className="group">
@@ -41,3 +43,5 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge }) => {
     </div>
   );
 };
+
+export const ChallengeCard = React.memo(ChallengeCardComponent);

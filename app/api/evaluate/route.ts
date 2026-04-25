@@ -51,7 +51,7 @@ Schema:
     const cleanedText = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
     
     return NextResponse.json(JSON.parse(cleanedText));
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Evaluate API Error:', error);
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid request parameters' }, { status: 400 });

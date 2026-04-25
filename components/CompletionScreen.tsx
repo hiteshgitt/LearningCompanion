@@ -10,7 +10,7 @@ interface CompletionScreenProps {
   history: string[];
 }
 
-export const CompletionScreen: React.FC<CompletionScreenProps> = ({ subject, level, xp, history }) => {
+const CompletionScreenComponent: React.FC<CompletionScreenProps> = ({ subject, level, xp, history }) => {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -74,3 +74,5 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({ subject, lev
     </div>
   );
 };
+
+export const CompletionScreen = React.memo(CompletionScreenComponent);

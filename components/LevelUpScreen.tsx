@@ -5,7 +5,7 @@ interface LevelUpScreenProps {
   onContinue: () => void;
 }
 
-export const LevelUpScreen: React.FC<LevelUpScreenProps> = ({ level, onContinue }) => {
+const LevelUpScreenComponent: React.FC<LevelUpScreenProps> = ({ level, onContinue }) => {
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
@@ -49,3 +49,5 @@ export const LevelUpScreen: React.FC<LevelUpScreenProps> = ({ level, onContinue 
     </div>
   );
 };
+
+export const LevelUpScreen = React.memo(LevelUpScreenComponent);

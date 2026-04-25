@@ -6,7 +6,7 @@ interface CodeEditorProps {
   disabled?: boolean;
 }
 
-export const CodeEditor: React.FC<CodeEditorProps> = ({ code, onChange, disabled = false }) => {
+const CodeEditorComponent: React.FC<CodeEditorProps> = ({ code, onChange, disabled = false }) => {
   return (
     <div className="relative w-full h-full min-h-[300px] flex rounded-xl overflow-hidden border border-slate-700 bg-slate-900 group focus-within:border-violet-500 focus-within:ring-1 focus-within:ring-violet-500 transition-all">
       <div className="absolute top-0 left-0 bottom-0 w-12 bg-slate-800 border-r border-slate-700 flex flex-col items-center py-4 select-none text-slate-500 font-mono text-sm z-10">
@@ -25,3 +25,5 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ code, onChange, disabled
     </div>
   );
 };
+
+export const CodeEditor = React.memo(CodeEditorComponent);

@@ -39,7 +39,7 @@ const subjects: { id: Subject; name: string; color: string; icon: React.ReactNod
   },
 ];
 
-export const SubjectSelector: React.FC<SubjectSelectorProps> = ({ onSelect }) => {
+const SubjectSelectorComponent: React.FC<SubjectSelectorProps> = ({ onSelect }) => {
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
       <h2 className="text-3xl font-bold text-center text-white mb-12">Select your Subject</h2>
@@ -59,3 +59,5 @@ export const SubjectSelector: React.FC<SubjectSelectorProps> = ({ onSelect }) =>
     </div>
   );
 };
+
+export const SubjectSelector = React.memo(SubjectSelectorComponent);

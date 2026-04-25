@@ -32,7 +32,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         currentChallenge: action.challenge,
-        userCode: action.challenge.starterCode,
+        userCode: action.challenge.type === 'code' ? action.challenge.starterCode : '',
         phase: 'playing',
         evaluation: null,
         isLoading: false,

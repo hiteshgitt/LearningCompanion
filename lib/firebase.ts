@@ -1,6 +1,7 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import type { Auth } from 'firebase/auth';
+import type { Analytics } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,21 +14,33 @@ const firebaseConfig = {
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
-let auth: any = null;
+let auth: Auth | null = null;
+let analytics: Analytics | null = null;
 
 export const initAuth = async () => {
   try {
     if (!auth) {
-      const { getAuth, signInAnonymously } = await import('firebase/auth');
+      const { getAuth } = await import('firebase/auth');
       auth = getAuth(app);
     }
     if (!auth.currentUser) {
       const { signInAnonymously } = await import('firebase/auth');
       await signInAnonymously(auth);
     }
-  } catch (error) {
-    console.error('Firebase Auth Error:', error);
+  } catch (error: unknown) {
+    console.error('Firebase Auth Error:', error instanceof Error ? error.message : 'Unknown error');
   }
 };
 
-export { db, auth };
+// Initialize Analytics lazily on the client
+if (typeof window !== 'undefined') {
+  import('firebase/analytics').then(({ getAnalytics, isSupported }) => {
+    isSupported().then(supported => {
+      if (supported) {
+        analytics = getAnalytics(app);
+      }
+    });
+  }).catch(err => console.error('Analytics failed to load', err));
+}
+
+export { db, auth, analytics };
