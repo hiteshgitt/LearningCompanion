@@ -11,11 +11,18 @@ export const metadata: Metadata = {
   description: 'Gamified interactive learning platform for coding.',
 };
 
+import { initAuth } from '@/lib/firebase';
+import { useEffect } from 'react';
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  useEffect(() => {
+    initAuth();
+  }, []);
+
   return (
     <html lang="en" className={`${inter.variable} ${firaCode.variable}`}>
       <body className="bg-slate-900 text-slate-200 font-sans min-h-screen selection:bg-violet-500/30">

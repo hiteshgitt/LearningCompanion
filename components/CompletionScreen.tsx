@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { db, initAuth } from '@/lib/firebase';
+import { db, initAuth, storage } from '@/lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
+import { ref, uploadString } from 'firebase/storage';
 import { Subject } from '@/lib/types';
 
 interface CompletionScreenProps {
@@ -25,6 +26,11 @@ const CompletionScreenComponent: React.FC<CompletionScreenProps> = ({ subject, l
           challengesCompleted: history.length,
           timestamp: new Date().toISOString()
         });
+
+        // Log to Storage as well
+        const storageRef = ref(storage, `sessions/${Date.now()}.txt`);
+        await uploadString(storageRef, `Session Complete: ${subject} - Level ${level} - ${xp} XP`);
+
         setSaved(true);
       } catch (error) {
         console.error('Failed to save score:', error);

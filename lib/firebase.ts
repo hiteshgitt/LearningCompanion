@@ -1,5 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage, type FirebaseStorage } from 'firebase/storage';
 import type { Auth } from 'firebase/auth';
 import type { Analytics } from 'firebase/analytics';
 
@@ -15,6 +16,8 @@ const firebaseConfig = {
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
+const storage = getStorage(app);
+
 let auth: Auth | null = null;
 let analytics: Analytics | null = null;
 
@@ -28,8 +31,10 @@ export const initAuth = async () => {
       const { signInAnonymously } = await import('firebase/auth');
       await signInAnonymously(auth);
     }
+    return auth;
   } catch (error: unknown) {
     console.error('Firebase Auth Error:', error instanceof Error ? error.message : 'Unknown error');
+    return null;
   }
 };
 
@@ -44,4 +49,4 @@ if (typeof window !== 'undefined') {
   }).catch(err => console.error('Analytics failed to load', err));
 }
 
-export { db, auth, analytics };
+export { db, auth, analytics, storage };
